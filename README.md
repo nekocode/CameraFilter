@@ -5,5 +5,5 @@ Realtime camera filters. Process frames by OpenGL shaders.
 
 ## Filters
 
-- **[Edge Detection](https://www.shadertoy.com/view/Xtd3W7#)**
+- **[Edge Detection](https://www.shadertoy.com/view/Xtd3W7#)**  
 ![](art/1.png)
