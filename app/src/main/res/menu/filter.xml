@@ -26,4 +26,16 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/filter4"
+        android:title="TrianglesMosaic"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter5"
+        android:title="Legofied"
+        app:showAsAction="never"
+        />
+
 </menu>

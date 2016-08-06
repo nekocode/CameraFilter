@@ -42,6 +42,8 @@ public class RenderThread extends Thread {
     private CameraFilter cameraFilter;
     private SparseArray<CameraFilter> cameraFilterMap = new SparseArray<>();
 
+    private boolean exit = false;
+
     public RenderThread(Context context, SurfaceTexture surfaceTexture, Camera camera) {
         this.context = context;
         this.surfaceTexture = surfaceTexture;
@@ -64,6 +66,8 @@ public class RenderThread extends Thread {
         cameraFilterMap.append(R.id.filter1, new EdgeDetectionFilter(context));
         cameraFilterMap.append(R.id.filter2, new PixelizeFilter(context));
         cameraFilterMap.append(R.id.filter3, new EMInterferenceFilter(context));
+        cameraFilterMap.append(R.id.filter4, new TrianglesMosaicFilter(context));
+        cameraFilterMap.append(R.id.filter5, new LegofiedFilter(context));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
         try {
@@ -73,7 +77,7 @@ public class RenderThread extends Thread {
             // Something bad happened
         }
 
-        while (!this.isInterrupted()) {
+        while (!exit) {
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
             // Update the camera preview texture
@@ -94,12 +98,13 @@ public class RenderThread extends Thread {
                 // Ignore
             }
         }
+
+        cameraSurfaceTexture.release();
+        GLES20.glDeleteTextures(1, new int[]{cameraTextureId}, 0);
     }
 
     public void Stop() {
-        cameraSurfaceTexture.release();
-        GLES20.glDeleteTextures(1, new int[]{cameraTextureId}, 0);
-        this.interrupt();
+        exit = true;
     }
 
     private void initGL(SurfaceTexture texture) {
