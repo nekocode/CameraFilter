@@ -16,16 +16,16 @@ public abstract class CameraFilter {
     Context context;
 
     private static final float squareCoords[] = {
-            1.0f, -1.0f,
             -1.0f, -1.0f,
-            1.0f, 1.0f,
+            1.0f, -1.0f,
             -1.0f, 1.0f,
+            1.0f, 1.0f,
     };
     private static final float textureCoords[] = {
-            1.0f, 0.0f,
+            0.0f, 1.0f,
             1.0f, 1.0f,
             0.0f, 0.0f,
-            0.0f, 1.0f,
+            1.0f, 0.0f,
     };
     private static FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
 

@@ -98,6 +98,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter3, new EMInterferenceFilter(context));
         cameraFilterMap.append(R.id.filter4, new TrianglesMosaicFilter(context));
         cameraFilterMap.append(R.id.filter5, new LegofiedFilter(context));
+        cameraFilterMap.append(R.id.filter6, new TileMosaicFilter(context));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
         try {

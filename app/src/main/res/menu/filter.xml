@@ -38,4 +38,10 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/filter6"
+        android:title="TileMosaic"
+        app:showAsAction="never"
+        />
+
 </menu>
