@@ -1,7 +1,7 @@
 #extension GL_OES_EGL_image_external : require
 #extension GL_OES_standard_derivatives : enable
-
 precision mediump float;
+
 uniform samplerExternalOES sTexture;
 varying vec2 texCoord;
 

@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/filter0"
+        android:title="Original"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter1"
+        android:title="EdgeDectection"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter2"
+        android:title="Pixelize"
+        app:showAsAction="never"
+        />
+
+</menu>
