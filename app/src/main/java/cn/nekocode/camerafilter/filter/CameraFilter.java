@@ -27,21 +27,25 @@ public abstract class CameraFilter {
             0.0f, 0.0f,
             0.0f, 1.0f,
     };
-    private FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
+    private static FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
 
     public CameraFilter(Context context) {
         this.context = context;
 
         // Setup default VertexBuffers
-        defaultVertexBuffer = ByteBuffer.allocateDirect(squareCoords.length * 4)
-                .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        defaultVertexBuffer.put(squareCoords);
-        defaultVertexBuffer.position(0);
+        if (defaultVertexBuffer == null) {
+            defaultVertexBuffer = ByteBuffer.allocateDirect(squareCoords.length * 4)
+                    .order(ByteOrder.nativeOrder()).asFloatBuffer();
+            defaultVertexBuffer.put(squareCoords);
+            defaultVertexBuffer.position(0);
+        }
 
-        defaultTextureCoordBuffer = ByteBuffer.allocateDirect(textureCoords.length * 4)
-                .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        defaultTextureCoordBuffer.put(textureCoords);
-        defaultTextureCoordBuffer.position(0);
+        if (defaultTextureCoordBuffer == null) {
+            defaultTextureCoordBuffer = ByteBuffer.allocateDirect(textureCoords.length * 4)
+                    .order(ByteOrder.nativeOrder()).asFloatBuffer();
+            defaultTextureCoordBuffer.put(textureCoords);
+            defaultTextureCoordBuffer.position(0);
+        }
     }
 
     void defaultDraw(int program, int textureId, int gwidth, int gheight) {

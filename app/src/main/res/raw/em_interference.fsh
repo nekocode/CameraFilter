@@ -2,9 +2,10 @@
 // #extension GL_OES_standard_derivatives : enable
 precision highp float;
 
-uniform float iGlobalTime;
-uniform samplerExternalOES sTexture;
-varying vec2 texCoord;
+uniform vec3                iResolution;
+uniform float               iGlobalTime;
+uniform samplerExternalOES  sTexture;
+varying vec2                texCoord;
 
 float rng2(vec2 seed) {
     return fract(sin(dot(seed * floor(iGlobalTime * 12.), vec2(127.1,311.7))) * 43758.5453123);

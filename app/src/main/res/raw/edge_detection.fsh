@@ -2,8 +2,9 @@
 #extension GL_OES_standard_derivatives : enable
 precision mediump float;
 
-uniform samplerExternalOES sTexture;
-varying vec2 texCoord;
+uniform vec3                iResolution;
+uniform samplerExternalOES  sTexture;
+varying vec2                texCoord;
 
 void main() {
     vec4 color = texture2D(sTexture, texCoord);

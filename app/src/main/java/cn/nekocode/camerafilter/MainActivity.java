@@ -16,10 +16,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
         setTitle(getString(R.string.app_name) + ": Original");
 
         renderer = new CameraRenderer(this);
-        textureView = new TextureView(this);
+        textureView = (TextureView) findViewById(R.id.textureView);
+        assert textureView != null;
         textureView.setSurfaceTextureListener(renderer);
 
         // Show original frame when touch the view
@@ -40,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setContentView(textureView);
+        textureView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                renderer.onSurfaceTextureSizeChanged(null, v.getWidth(), v.getHeight());
+            }
+        });
+
     }
 
     @Override

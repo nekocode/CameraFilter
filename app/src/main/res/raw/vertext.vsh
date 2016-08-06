@@ -1,6 +1,6 @@
-attribute vec2 vPosition;
-attribute vec2 vTexCoord;
-varying vec2 texCoord;
+attribute vec2  vPosition;
+attribute vec2  vTexCoord;
+varying vec2    texCoord;
 
 void main() {
     texCoord = vTexCoord;

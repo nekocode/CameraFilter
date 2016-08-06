@@ -1,8 +1,9 @@
 #extension GL_OES_EGL_image_external : require
 precision highp float;
 
-uniform samplerExternalOES sTexture;
-varying vec2 texCoord;
+uniform vec3                iResolution;
+uniform samplerExternalOES  sTexture;
+varying vec2                texCoord;
 
 vec2 tile_num = vec2(40.0, 20.0);
 

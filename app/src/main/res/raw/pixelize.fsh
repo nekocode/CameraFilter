@@ -3,8 +3,9 @@
 #define PIXEL_SIZE 10.0
 precision mediump float;
 
-uniform samplerExternalOES sTexture;
-varying vec2 texCoord;
+uniform vec3                iResolution;
+uniform samplerExternalOES  sTexture;
+varying vec2                texCoord;
 
 void main() {
 	vec2 uv = texCoord.xy;
