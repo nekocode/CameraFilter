@@ -20,4 +20,10 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/filter3"
+        android:title="EMInterference"
+        app:showAsAction="never"
+        />
+
 </menu>

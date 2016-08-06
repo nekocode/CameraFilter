@@ -16,10 +16,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL11;
 
-import cn.nekocode.camerafilter.filter.CameraFilter;
-import cn.nekocode.camerafilter.filter.EdgeDetectionFilter;
-import cn.nekocode.camerafilter.filter.OriginalFilter;
-import cn.nekocode.camerafilter.filter.PixelizeFilter;
+import cn.nekocode.camerafilter.filter.*;
 
 /**
  * Created by nekocode on 16/8/5.
@@ -28,7 +25,7 @@ public class RenderThread extends Thread {
     private static final String TAG = "RenderThread";
     private static final int EGL_OPENGL_ES2_BIT = 4;
     private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
-    private static final int DRAW_INTERVAL = 1000 / 60;
+    private static final int DRAW_INTERVAL = 1000 / 30;
 
     private Context context;
     private SurfaceTexture surfaceTexture;
@@ -66,6 +63,7 @@ public class RenderThread extends Thread {
         cameraFilterMap.append(R.id.filter0, new OriginalFilter(context));
         cameraFilterMap.append(R.id.filter1, new EdgeDetectionFilter(context));
         cameraFilterMap.append(R.id.filter2, new PixelizeFilter(context));
+        cameraFilterMap.append(R.id.filter3, new EMInterferenceFilter(context));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
         try {

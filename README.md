@@ -10,3 +10,6 @@ Realtime camera filters. Process frames by OpenGL shaders.
 
 - **Pixelize**  
 ![](art/2.png)
+
+- **[EMInterference](https://www.shadertoy.com/view/lsXSWl#)**  
+![](art/3.png)
