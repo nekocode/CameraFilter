@@ -1,20 +1,17 @@
 #extension GL_OES_EGL_image_external : require
 #extension GL_OES_standard_derivatives : enable
-#define PIXEL_SIZE 10.0
 precision mediump float;
 
 uniform vec3                iResolution;
 uniform samplerExternalOES  sTexture;
 varying vec2                texCoord;
 
+void mainImage(out vec4 f,vec2 u)
+{
+    vec2 r = iResolution.xy;
+    f = texture2D(sTexture,ceil(u / (r.x/1e2)) * r.x/1e2 / r);
+}
+
 void main() {
-	vec2 uv = texCoord.xy;
-
-    float dx = PIXEL_SIZE / 500.0;
-    float dy = PIXEL_SIZE / 275.0;
-
-    uv.x = dx * floor(uv.x / dx);
-    uv.y = dy * floor(uv.y / dy);
-
-    gl_FragColor = texture2D(sTexture, uv);
+	mainImage(gl_FragColor, texCoord*iResolution.xy);
 }

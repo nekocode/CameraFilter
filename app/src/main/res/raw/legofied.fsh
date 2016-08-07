@@ -5,7 +5,7 @@ uniform vec3                iResolution;
 uniform samplerExternalOES  sTexture;
 varying vec2                texCoord;
 
-float c = 0.03; //amout of blocks = c*iResolution.x
+float c = 0.02; //amout of blocks = c*iResolution.x
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord ){
     //blocked pixel coordinate

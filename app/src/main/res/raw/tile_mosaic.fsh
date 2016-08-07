@@ -14,7 +14,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	const float textureSamplesCount = 3.0;
 	const float textureEdgeOffset = 0.005;
 	const float borderSize = 1.0;
-	const float size = 2.0;
+	const float size = 0.5;
 
 	float tileSize = minTileSize + floor(size * (maxTileSize - minTileSize));
 	tileSize += mod(tileSize, 2.0);
@@ -37,7 +37,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	vec2 pixelNumber = floor(fragCoord - (tileNumber * tileSize));
 	pixelNumber = mod(pixelNumber + borderSize, tileSize);
 
-	float pixelBorder = step(pixelNumber.x, borderSize) * step(pixelNumber.y, borderSize) * step(borderSize * 2.0 + 1.0, tileSize);
+    float pixelBorder = step(min(pixelNumber.x, pixelNumber.y), borderSize) * step(borderSize * 2.0 + 1.0, tileSize);
+	//float pixelBorder = step(pixelNumber.x, borderSize) * step(pixelNumber.y, borderSize) * step(borderSize * 2.0 + 1.0, tileSize);
 
 	fragColor *= pow(fragColor, vec4(pixelBorder));
 }

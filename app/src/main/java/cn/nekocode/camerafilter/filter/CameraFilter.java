@@ -16,16 +16,16 @@ public abstract class CameraFilter {
     Context context;
 
     private static final float squareCoords[] = {
-            -1.0f, -1.0f,
             1.0f, -1.0f,
-            -1.0f, 1.0f,
+            -1.0f, -1.0f,
             1.0f, 1.0f,
+            -1.0f, 1.0f,
     };
     private static final float textureCoords[] = {
-            0.0f, 1.0f,
+            1.0f, 0.0f,
             1.0f, 1.0f,
             0.0f, 0.0f,
-            1.0f, 0.0f,
+            0.0f, 1.0f,
     };
     private static FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
 
@@ -53,7 +53,8 @@ public abstract class CameraFilter {
         GLES20.glUseProgram(program);
 
         int iResolution = GLES20.glGetUniformLocation(program, "iResolution");
-        final float res[] = {(float) gwidth, (float) gheight, 1.0f};
+        // FIXME: Because we roate the texture, so we need to exchange the width and height
+        final float res[] = {(float) gheight, (float) gwidth, 1.0f};
         GLES20.glUniform3fv(iResolution, 1, res, 0);
 
         float time = ((float) (System.currentTimeMillis() - START_TIME)) / 1000.0f;
