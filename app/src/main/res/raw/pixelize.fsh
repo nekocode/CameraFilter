@@ -6,10 +6,11 @@ uniform vec3                iResolution;
 uniform samplerExternalOES  sTexture;
 varying vec2                texCoord;
 
-void mainImage(out vec4 f,vec2 u)
+#define S (iResolution.x / 6e1) // The cell size.
+
+void mainImage(out vec4 c, vec2 p)
 {
-    vec2 r = iResolution.xy;
-    f = texture2D(sTexture,ceil(u / (r.x/1e2)) * r.x/1e2 / r);
+    c = texture2D(sTexture, floor((p + .5) / S) * S / iResolution.xy);
 }
 
 void main() {
