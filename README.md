@@ -26,3 +26,5 @@ Realtime camera filters. Process frames by OpenGL shaders.
 | Lichtenstein-esque | https://www.shadertoy.com/view/Mdf3zS | ![](art/15.png) |
 | Ascii Art | https://www.shadertoy.com/view/lssGDj# | ![](art/16.png) |
 | Money Filter | https://www.shadertoy.com/view/XlsXDN | ![](art/17.png) |
+| Cracked | https://www.shadertoy.com/view/XdBSzW | ![](art/18.png) |
+| Polygonization | https://www.shadertoy.com/view/4lsXR7# | ![](art/19.png) |

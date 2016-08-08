@@ -109,4 +109,16 @@
         android:title="MoneyFilter"
         app:showAsAction="never"
         />
+
+    <item
+        android:id="@+id/filter18"
+        android:title="Cracked"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter19"
+        android:title="Polygonization"
+        app:showAsAction="never"
+        />
 </menu>

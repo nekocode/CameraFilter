@@ -23,6 +23,7 @@ import cn.nekocode.camerafilter.filter.BlueorangeFilter;
 import cn.nekocode.camerafilter.filter.CameraFilter;
 import cn.nekocode.camerafilter.filter.ChromaticAberrationFilter;
 import cn.nekocode.camerafilter.filter.ContrastFilter;
+import cn.nekocode.camerafilter.filter.CrackedFilter;
 import cn.nekocode.camerafilter.filter.CrosshatchFilter;
 import cn.nekocode.camerafilter.filter.EMInterferenceFilter;
 import cn.nekocode.camerafilter.filter.EdgeDetectionFilter;
@@ -33,6 +34,7 @@ import cn.nekocode.camerafilter.filter.MoneyFilter;
 import cn.nekocode.camerafilter.filter.NoiseWarpFilter;
 import cn.nekocode.camerafilter.filter.OriginalFilter;
 import cn.nekocode.camerafilter.filter.PixelizeFilter;
+import cn.nekocode.camerafilter.filter.PolygonizationFilter;
 import cn.nekocode.camerafilter.filter.RefractionFilter;
 import cn.nekocode.camerafilter.filter.TileMosaicFilter;
 import cn.nekocode.camerafilter.filter.TrianglesMosaicFilter;
@@ -128,6 +130,8 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter15, new LichtensteinEsqueFilter(context));
         cameraFilterMap.append(R.id.filter16, new AsciiArtFilter(context));
         cameraFilterMap.append(R.id.filter17, new MoneyFilter(context));
+        cameraFilterMap.append(R.id.filter18, new CrackedFilter(context));
+        cameraFilterMap.append(R.id.filter19, new PolygonizationFilter(context));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
         try {
