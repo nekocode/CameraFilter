@@ -3,7 +3,6 @@ package cn.nekocode.camerafilter;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.util.Pair;
@@ -18,7 +17,25 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 
-import cn.nekocode.camerafilter.filter.*;
+import cn.nekocode.camerafilter.filter.AsciiArtFilter;
+import cn.nekocode.camerafilter.filter.BasicDeformFilter;
+import cn.nekocode.camerafilter.filter.BlueorangeFilter;
+import cn.nekocode.camerafilter.filter.CameraFilter;
+import cn.nekocode.camerafilter.filter.ChromaticAberrationFilter;
+import cn.nekocode.camerafilter.filter.ContrastFilter;
+import cn.nekocode.camerafilter.filter.CrosshatchFilter;
+import cn.nekocode.camerafilter.filter.EMInterferenceFilter;
+import cn.nekocode.camerafilter.filter.EdgeDetectionFilter;
+import cn.nekocode.camerafilter.filter.LichtensteinEsqueFilter;
+import cn.nekocode.camerafilter.filter.LegofiedFilter;
+import cn.nekocode.camerafilter.filter.MappingFilter;
+import cn.nekocode.camerafilter.filter.MoneyFilter;
+import cn.nekocode.camerafilter.filter.NoiseWarpFilter;
+import cn.nekocode.camerafilter.filter.OriginalFilter;
+import cn.nekocode.camerafilter.filter.PixelizeFilter;
+import cn.nekocode.camerafilter.filter.RefractionFilter;
+import cn.nekocode.camerafilter.filter.TileMosaicFilter;
+import cn.nekocode.camerafilter.filter.TrianglesMosaicFilter;
 
 /**
  * Created by nekocode on 16/8/5.
@@ -90,7 +107,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         initGL(surfaceTexture);
 
         // Create texture for camera preview
-        cameraTextureId = MyGLUtils.createTextureID(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
+        cameraTextureId = MyGLUtils.createCameraTextureID();
         cameraSurfaceTexture = new SurfaceTexture(cameraTextureId);
 
         cameraFilterMap.append(R.id.filter0, new OriginalFilter(context));
@@ -106,6 +123,11 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter10, new ContrastFilter(context));
         cameraFilterMap.append(R.id.filter11, new NoiseWarpFilter(context));
         cameraFilterMap.append(R.id.filter12, new RefractionFilter(context));
+        cameraFilterMap.append(R.id.filter13, new MappingFilter(context));
+        cameraFilterMap.append(R.id.filter14, new CrosshatchFilter(context));
+        cameraFilterMap.append(R.id.filter15, new LichtensteinEsqueFilter(context));
+        cameraFilterMap.append(R.id.filter16, new AsciiArtFilter(context));
+        cameraFilterMap.append(R.id.filter17, new MoneyFilter(context));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
         try {

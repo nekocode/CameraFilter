@@ -3,7 +3,7 @@
 
 Realtime camera filters. Process frames by OpenGL shaders.
 
-**[Download the apk](https://github.com/WeLikeVis/CameraFilter/releases/download/1.1/app-debug.apk)** to have a try.
+**[Download the apk](https://github.com/WeLikeVis/CameraFilter/releases/download/1.2/app-debug.apk)** to have a try.
 
 ## Filters
 
@@ -21,3 +21,8 @@ Realtime camera filters. Process frames by OpenGL shaders.
 | Contrast | https://www.shadertoy.com/view/Xdf3RN | ![](art/10.png) |
 | NoiseWarp | https://www.shadertoy.com/view/4sX3RN | ![](art/11.png) |
 | Refraction | https://www.shadertoy.com/view/MsX3zN# | ![](art/12.png) |
+| Mapping | https://www.shadertoy.com/view/XsX3R7# | ![](art/13.png) |
+| Crosshatch | https://www.shadertoy.com/view/MdX3Dr | ![](art/14.png) |
+| Lichtenstein-esque | https://www.shadertoy.com/view/Mdf3zS | ![](art/15.png) |
+| Ascii Art | https://www.shadertoy.com/view/lssGDj# | ![](art/16.png) |
+| Money Filter | https://www.shadertoy.com/view/XlsXDN | ![](art/17.png) |

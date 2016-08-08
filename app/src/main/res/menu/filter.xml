@@ -79,4 +79,34 @@
         android:title="Refraction"
         app:showAsAction="never"
         />
+
+    <item
+        android:id="@+id/filter13"
+        android:title="Mapping"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter14"
+        android:title="Crosshatch"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter15"
+        android:title="LichtensteinEsque"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter16"
+        android:title="AsciiArt"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter17"
+        android:title="MoneyFilter"
+        app:showAsAction="never"
+        />
 </menu>

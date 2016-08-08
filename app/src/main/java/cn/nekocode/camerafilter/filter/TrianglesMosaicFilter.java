@@ -1,8 +1,6 @@
 package cn.nekocode.camerafilter.filter;
 
 import android.content.Context;
-import android.opengl.GLES11Ext;
-import android.opengl.GLES20;
 
 import cn.nekocode.camerafilter.MyGLUtils;
 import cn.nekocode.camerafilter.R;

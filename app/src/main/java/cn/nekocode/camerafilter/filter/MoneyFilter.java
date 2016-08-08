@@ -8,14 +8,14 @@ import cn.nekocode.camerafilter.R;
 /**
  * Created by nekocode on 16/8/6.
  */
-public class PixelizeFilter extends CameraFilter {
+public class MoneyFilter extends CameraFilter {
     private int program;
 
-    public PixelizeFilter(Context context) {
+    public MoneyFilter(Context context) {
         super(context);
 
         // Build shaders
-        program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.pixelize);
+        program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.money_filter);
     }
 
     @Override
