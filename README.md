@@ -14,4 +14,10 @@ Realtime camera filters. Process frames by OpenGL shaders.
 | EM Interference | https://www.shadertoy.com/view/lsXSWl# | ![](art/3.png)|
 | Triangles Mosaic | https://www.shadertoy.com/view/4d2SWy | ![](art/4.png) |
 | Legofied | https://www.shadertoy.com/view/XtBSzy# | ![](art/5.png) |
-| TileMosaic | https://www.shadertoy.com/view/MtfXRN | ![](art/6.png) |
+| Tile Mosaic | https://www.shadertoy.com/view/MtfXRN | ![](art/6.png) |
+| Blueorange | https://www.shadertoy.com/view/MslGzr | ![](art/7.png) |
+| Chromatic Aberration | https://www.shadertoy.com/view/Mds3zn | ![](art/8.png) |
+| Basic Deform | https://www.shadertoy.com/view/XdsGzH | ![](art/9.png) |
+| Contrast | https://www.shadertoy.com/view/Xdf3RN | ![](art/10.png) |
+| NoiseWarp | https://www.shadertoy.com/view/4sX3RN | ![](art/11.png) |
+| Refraction | https://www.shadertoy.com/view/MsX3zN# | ![](art/12.png) |

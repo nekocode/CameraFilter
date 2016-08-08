@@ -3,6 +3,7 @@ package cn.nekocode.camerafilter;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.util.Pair;
@@ -89,7 +90,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         initGL(surfaceTexture);
 
         // Create texture for camera preview
-        cameraTextureId = MyGLUtils.createTextureID();
+        cameraTextureId = MyGLUtils.createTextureID(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         cameraSurfaceTexture = new SurfaceTexture(cameraTextureId);
 
         cameraFilterMap.append(R.id.filter0, new OriginalFilter(context));
@@ -99,6 +100,12 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter4, new TrianglesMosaicFilter(context));
         cameraFilterMap.append(R.id.filter5, new LegofiedFilter(context));
         cameraFilterMap.append(R.id.filter6, new TileMosaicFilter(context));
+        cameraFilterMap.append(R.id.filter7, new BlueorangeFilter(context));
+        cameraFilterMap.append(R.id.filter8, new ChromaticAberrationFilter(context));
+        cameraFilterMap.append(R.id.filter9, new BasicDeformFilter(context));
+        cameraFilterMap.append(R.id.filter10, new ContrastFilter(context));
+        cameraFilterMap.append(R.id.filter11, new NoiseWarpFilter(context));
+        cameraFilterMap.append(R.id.filter12, new RefractionFilter(context));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
         try {

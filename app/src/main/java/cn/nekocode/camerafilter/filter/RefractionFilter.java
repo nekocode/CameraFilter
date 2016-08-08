@@ -4,51 +4,28 @@ import android.content.Context;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
+import cn.nekocode.camerafilter.MyGLUtils;
+import cn.nekocode.camerafilter.R;
 
 /**
  * Created by nekocode on 16/8/6.
  */
-public abstract class CameraFilter {
-    static long START_TIME = System.currentTimeMillis();
-    Context context;
+public class RefractionFilter extends CameraFilter {
+    private int program;
+    private int texture2Id;
 
-    private static final float squareCoords[] = {
-            1.0f, -1.0f,
-            -1.0f, -1.0f,
-            1.0f, 1.0f,
-            -1.0f, 1.0f,
-    };
-    private static final float textureCoords[] = {
-            1.0f, 0.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-    };
-    static FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
+    public RefractionFilter(Context context) {
+        super(context);
 
-    public CameraFilter(Context context) {
-        this.context = context;
+        // Build shaders
+        program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.refraction);
 
-        // Setup default VertexBuffers
-        if (defaultVertexBuffer == null) {
-            defaultVertexBuffer = ByteBuffer.allocateDirect(squareCoords.length * 4)
-                    .order(ByteOrder.nativeOrder()).asFloatBuffer();
-            defaultVertexBuffer.put(squareCoords);
-            defaultVertexBuffer.position(0);
-        }
-
-        if (defaultTextureCoordBuffer == null) {
-            defaultTextureCoordBuffer = ByteBuffer.allocateDirect(textureCoords.length * 4)
-                    .order(ByteOrder.nativeOrder()).asFloatBuffer();
-            defaultTextureCoordBuffer.put(textureCoords);
-            defaultTextureCoordBuffer.position(0);
-        }
+        // Load the texture will need for the shader
+        texture2Id = MyGLUtils.loadTexture(context, R.raw.tex11);
     }
 
-    void defaultDraw(int program, int textureId, int gwidth, int gheight) {
+    @Override
+    public void draw(int textureId, int gwidth, int gheight) {
         // Use shaders
         GLES20.glUseProgram(program);
 
@@ -64,10 +41,15 @@ public abstract class CameraFilter {
         int vPositionLocation = GLES20.glGetAttribLocation(program, "vPosition");
         int vTexCoordLocation = GLES20.glGetAttribLocation(program, "vTexCoord");
         int sTextureLocation = GLES20.glGetUniformLocation(program, "sTexture");
+        int sTexture2Location = GLES20.glGetUniformLocation(program, "sTexture2");
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);
         GLES20.glUniform1i(sTextureLocation, 0); // First layer texture
+
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture2Id);
+        GLES20.glUniform1i(sTexture2Location, 1); // Second layer texture
 
         GLES20.glVertexAttribPointer(vPositionLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultVertexBuffer);
         GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultTextureCoordBuffer);
@@ -77,6 +59,4 @@ public abstract class CameraFilter {
         // Draw the texture
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
     }
-
-    abstract public void draw(int textureId, int textureWidth, int textureHeight);
 }

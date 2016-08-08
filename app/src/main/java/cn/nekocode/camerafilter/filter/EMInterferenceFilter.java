@@ -21,7 +21,7 @@ public class EMInterferenceFilter extends CameraFilter {
     }
 
     @Override
-    public void draw(int textureId, int gwidht, int gheight) {
-        defaultDraw(program, textureId, gwidht, gheight);
+    public void draw(int textureId, int gwidth, int gheight) {
+        defaultDraw(program, textureId, gwidth, gheight);
     }
 }

@@ -44,4 +44,39 @@
         app:showAsAction="never"
         />
 
+    <item
+        android:id="@+id/filter7"
+        android:title="Blueorange"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter8"
+        android:title="ChromaticAberration"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter9"
+        android:title="BasicDeform"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter10"
+        android:title="Contrast"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter11"
+        android:title="NoiseWarp"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/filter12"
+        android:title="Refraction"
+        app:showAsAction="never"
+        />
 </menu>
