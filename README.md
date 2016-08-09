@@ -3,14 +3,14 @@
 
 Realtime camera filters. Process frames by OpenGL shaders.
 
-**[Download the apk](https://github.com/WeLikeVis/CameraFilter/releases/download/1.3/app-debug.apk)** to have a try.
+**[Download the apk](https://github.com/WeLikeVis/CameraFilter/releases/download/1.4/app-debug.apk)** to have a try.
 
 ## Filters
 
 Thasnks to the original authors of the filters' shader codes. I had only portted them from webgl to opengl es.
 
 | Filter | Preview | Filter | Preview |
-| :---- | :-------- | :------ |
+| :----- | :------ | :----- | :------ |
 | [Edge Detection](https://www.shadertoy.com/view/Xtd3W7) | ![](art/1.png) | [Pixelize](https://www.shadertoy.com/view/4lXXDH) | ![](art/2.png)|
 | [EM Interference](https://www.shadertoy.com/view/lsXSWl) | ![](art/3.png)| [Triangles Mosaic](https://www.shadertoy.com/view/4d2SWy) | ![](art/4.png) |
 | [Legofied](https://www.shadertoy.com/view/XtBSzy) | ![](art/5.png) | [Tile Mosaic](https://www.shadertoy.com/view/MtfXRN) | ![](art/6.png) |
