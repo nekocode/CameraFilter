@@ -27,7 +27,7 @@ public class EdgeDetectionFilter extends CameraFilter {
     private int program;
 
     public EdgeDetectionFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.edge_detection);

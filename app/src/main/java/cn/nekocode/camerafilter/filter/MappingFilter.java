@@ -30,7 +30,7 @@ public class MappingFilter extends CameraFilter {
     private int texture2Id;
 
     public MappingFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.mapping);

@@ -27,7 +27,7 @@ public class PolygonizationFilter extends CameraFilter {
     private int program;
 
     public PolygonizationFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.polygonization);

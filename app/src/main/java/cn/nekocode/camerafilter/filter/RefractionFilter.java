@@ -30,7 +30,7 @@ public class RefractionFilter extends CameraFilter {
     private int texture2Id;
 
     public RefractionFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.refraction);

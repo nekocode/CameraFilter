@@ -27,7 +27,7 @@ public class MoneyFilter extends CameraFilter {
     private int program;
 
     public MoneyFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.money_filter);

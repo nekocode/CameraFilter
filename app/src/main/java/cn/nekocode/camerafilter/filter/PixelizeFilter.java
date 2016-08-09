@@ -27,7 +27,7 @@ public class PixelizeFilter extends CameraFilter {
     private int program;
 
     public PixelizeFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.pixelize);

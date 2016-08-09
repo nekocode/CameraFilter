@@ -27,7 +27,7 @@ public class AsciiArtFilter extends CameraFilter {
     private int program;
 
     public AsciiArtFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.ascii_art);

@@ -27,7 +27,7 @@ public class NoiseWarpFilter extends CameraFilter {
     private int program;
 
     public NoiseWarpFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.noise_warp);

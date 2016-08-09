@@ -27,7 +27,7 @@ public class TileMosaicFilter extends CameraFilter {
     private int program;
 
     public TileMosaicFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.tile_mosaic);

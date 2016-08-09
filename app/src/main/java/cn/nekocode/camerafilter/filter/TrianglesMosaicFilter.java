@@ -27,7 +27,7 @@ public class TrianglesMosaicFilter extends CameraFilter {
     private int program;
 
     public TrianglesMosaicFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.triangles_mosaic);

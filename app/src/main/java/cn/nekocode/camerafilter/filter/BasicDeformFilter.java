@@ -27,7 +27,7 @@ public class BasicDeformFilter extends CameraFilter {
     private int program;
 
     public BasicDeformFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.basic_deform);

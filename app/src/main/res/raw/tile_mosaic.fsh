@@ -26,7 +26,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		for (float x = 0.0; x < textureSamplesCount; ++x)
 		{
 			vec2 textureCoordinates = (tileNumber + vec2((x + 0.5)/textureSamplesCount, (y + 0.5)/textureSamplesCount)) * tileSize / iResolution.xy;
-			textureCoordinates.y = 1.0 - textureCoordinates.y;
 			textureCoordinates = clamp(textureCoordinates, 0.0 + textureEdgeOffset, 1.0 - textureEdgeOffset);
 			accumulator += texture2D(sTexture, textureCoordinates);
 	   }
@@ -44,5 +43,5 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 }
 
 void main() {
-    mainImage(gl_FragColor, texCoord*iResolution.xy);
+    mainImage(gl_FragColor, texCoord.xy*iResolution.xy);
 }

@@ -27,7 +27,7 @@ public class LegofiedFilter extends CameraFilter {
     private int program;
 
     public LegofiedFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.legofied);

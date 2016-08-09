@@ -27,7 +27,7 @@ public class CrackedFilter extends CameraFilter {
     private int program;
 
     public CrackedFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.cracked);

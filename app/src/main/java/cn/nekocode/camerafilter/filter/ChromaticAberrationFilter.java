@@ -27,7 +27,7 @@ public class ChromaticAberrationFilter extends CameraFilter {
     private int program;
 
     public ChromaticAberrationFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.chromatic_aberration);

@@ -15,7 +15,6 @@
  */
 package cn.nekocode.camerafilter.filter;
 
-import android.content.Context;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
@@ -28,7 +27,6 @@ import java.nio.FloatBuffer;
  */
 public abstract class CameraFilter {
     static long START_TIME = System.currentTimeMillis();
-    Context context;
 
     private static final float squareCoords[] = {
             1.0f, -1.0f,
@@ -44,9 +42,7 @@ public abstract class CameraFilter {
     };
     static FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
 
-    public CameraFilter(Context context) {
-        this.context = context;
-
+    public CameraFilter() {
         // Setup default VertexBuffers
         if (defaultVertexBuffer == null) {
             defaultVertexBuffer = ByteBuffer.allocateDirect(squareCoords.length * 4)

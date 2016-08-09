@@ -27,7 +27,7 @@ public class BlueorangeFilter extends CameraFilter {
     private int program;
 
     public BlueorangeFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.blue_orange);

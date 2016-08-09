@@ -27,7 +27,7 @@ public class ContrastFilter extends CameraFilter {
     private int program;
 
     public ContrastFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.contrast);

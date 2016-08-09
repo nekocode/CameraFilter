@@ -27,7 +27,7 @@ public class OriginalFilter extends CameraFilter {
     private int program;
 
     public OriginalFilter(Context context) {
-        super(context);
+        super();
 
         // Build shaders
         program = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.original);
