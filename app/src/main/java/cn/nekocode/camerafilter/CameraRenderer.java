@@ -126,7 +126,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         initGL(surfaceTexture);
 
         // Create texture for camera preview
-        cameraTextureId = MyGLUtils.createCameraTextureID();
+        cameraTextureId = MyGLUtils.createCameraTexture();
         cameraSurfaceTexture = new SurfaceTexture(cameraTextureId);
 
         cameraFilterMap.append(R.id.filter0, new OriginalFilter(context));

@@ -36,7 +36,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLUtils {
     private static final String TAG = "MyGLUtils";
 
-    public static int createCameraTextureID() {
+    public static int createCameraTexture() {
         int[] texture = new int[1];
 
         GLES20.glGenTextures(1, texture, 0);
