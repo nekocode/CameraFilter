@@ -7,7 +7,7 @@ Realtime camera filters. Process frames by OpenGL shaders.
 
 ## Filters
 
-Thasnks to the original authors of the filters' shader codes. I had only portted them from webgl to opengl es.
+Thasnks to the original authors of the shader codes. I had only portted them from webgl to opengl es.
 
 | Filter | Preview | Filter | Preview |
 | :----- | :------ | :----- | :------ |
