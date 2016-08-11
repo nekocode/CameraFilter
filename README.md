@@ -3,7 +3,7 @@
 
 Realtime camera filters. Process frames by OpenGL shaders.
 
-**[Download the apk](https://github.com/WeLikeVis/CameraFilter/releases/download/1.4/app-debug.apk)** to have a try.
+**[Download the apk](https://github.com/WeLikeVis/CameraFilter/releases/download/1.5/app-debug.apk)** to have a try.
 
 ## Filters
 
