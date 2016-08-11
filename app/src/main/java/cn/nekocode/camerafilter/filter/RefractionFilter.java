@@ -67,7 +67,7 @@ public class RefractionFilter extends CameraFilter {
         GLES20.glUniform1i(sTexture2Location, 1); // Second layer texture
 
         GLES20.glVertexAttribPointer(vPositionLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultVertexBuffer);
-        GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultTextureCoordBuffer);
+        GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultRoatedTextureCoordBuffer);
         GLES20.glEnableVertexAttribArray(vPositionLocation);
         GLES20.glEnableVertexAttribArray(vTexCoordLocation);
 

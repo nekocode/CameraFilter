@@ -40,7 +40,7 @@ public abstract class CameraFilter {
             0.0f, 0.0f,
             0.0f, 1.0f,
     };
-    static FloatBuffer defaultVertexBuffer, defaultTextureCoordBuffer;
+    static FloatBuffer defaultVertexBuffer, defaultRoatedTextureCoordBuffer;
 
     public CameraFilter() {
         // Setup default VertexBuffers
@@ -51,11 +51,11 @@ public abstract class CameraFilter {
             defaultVertexBuffer.position(0);
         }
 
-        if (defaultTextureCoordBuffer == null) {
-            defaultTextureCoordBuffer = ByteBuffer.allocateDirect(textureCoords.length * 4)
+        if (defaultRoatedTextureCoordBuffer == null) {
+            defaultRoatedTextureCoordBuffer = ByteBuffer.allocateDirect(textureCoords.length * 4)
                     .order(ByteOrder.nativeOrder()).asFloatBuffer();
-            defaultTextureCoordBuffer.put(textureCoords);
-            defaultTextureCoordBuffer.position(0);
+            defaultRoatedTextureCoordBuffer.put(textureCoords);
+            defaultRoatedTextureCoordBuffer.position(0);
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class CameraFilter {
         GLES20.glUseProgram(program);
 
         int iResolution = GLES20.glGetUniformLocation(program, "iResolution");
-        // FIXME: Because we roate the texture, so we need to exchange the width and height
+        // FIXME: Because we roated the texture by 90 degresss, so we need to exchange the width and height
         final float res[] = {(float) gheight, (float) gwidth, 1.0f};
         GLES20.glUniform3fv(iResolution, 1, res, 0);
 
@@ -81,7 +81,7 @@ public abstract class CameraFilter {
         GLES20.glUniform1i(sTextureLocation, 0); // First layer texture
 
         GLES20.glVertexAttribPointer(vPositionLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultVertexBuffer);
-        GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultTextureCoordBuffer);
+        GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultRoatedTextureCoordBuffer);
         GLES20.glEnableVertexAttribArray(vPositionLocation);
         GLES20.glEnableVertexAttribArray(vTexCoordLocation);
 

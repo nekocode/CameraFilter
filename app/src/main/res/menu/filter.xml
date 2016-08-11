@@ -121,4 +121,10 @@
         android:title="Polygonization"
         app:showAsAction="never"
         />
+
+    <item
+        android:id="@+id/filter20"
+        android:title="JFAVoronoi"
+        app:showAsAction="never"
+        />
 </menu>

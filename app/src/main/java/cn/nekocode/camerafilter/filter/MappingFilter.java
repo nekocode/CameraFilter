@@ -45,7 +45,7 @@ public class MappingFilter extends CameraFilter {
         GLES20.glUseProgram(program);
 
         int iResolution = GLES20.glGetUniformLocation(program, "iResolution");
-        // FIXME: Because we roate the texture, so we need to exchange the width and height
+        // FIXME: Because we roated the texture by 90 degresss, so we need to exchange the width and height
         final float res[] = {(float) gheight, (float) gwidth, 1.0f};
         GLES20.glUniform3fv(iResolution, 1, res, 0);
 
@@ -67,7 +67,7 @@ public class MappingFilter extends CameraFilter {
         GLES20.glUniform1i(sTexture2Location, 1); // Second layer texture
 
         GLES20.glVertexAttribPointer(vPositionLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultVertexBuffer);
-        GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultTextureCoordBuffer);
+        GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, defaultRoatedTextureCoordBuffer);
         GLES20.glEnableVertexAttribArray(vPositionLocation);
         GLES20.glEnableVertexAttribArray(vTexCoordLocation);
 
