@@ -26,7 +26,7 @@ import java.nio.FloatBuffer;
  * Created by nekocode on 16/8/6.
  */
 public abstract class CameraFilter {
-    static long START_TIME = System.currentTimeMillis();
+    final long START_TIME = System.currentTimeMillis();
 
     private static final float squareCoords[] = {
             1.0f, -1.0f,

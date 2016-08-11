@@ -3,6 +3,13 @@
     >
 
     <item
+        android:id="@+id/capture"
+        android:title="Capture"
+        android:icon="@android:drawable/ic_menu_camera"
+        app:showAsAction="always"
+        />
+
+    <item
         android:id="@+id/filter0"
         android:title="Original"
         app:showAsAction="never"
