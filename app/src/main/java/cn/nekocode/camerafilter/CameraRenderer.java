@@ -133,6 +133,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraTextureId = MyGLUtils.createCameraTexture();
         cameraSurfaceTexture = new SurfaceTexture(cameraTextureId);
 
+        // Setup camera filter map
         cameraFilterMap.append(R.id.filter0, new OriginalFilter(context));
         cameraFilterMap.append(R.id.filter1, new EdgeDetectionFilter(context));
         cameraFilterMap.append(R.id.filter2, new PixelizeFilter(context));
@@ -156,6 +157,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context, cameraSize.width, cameraSize.height));
         cameraFilter = cameraFilterMap.get(R.id.filter0);
 
+        // Start camera preview
         try {
             camera.setPreviewTexture(cameraSurfaceTexture);
             camera.startPreview();
@@ -163,6 +165,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
             // Something bad happened
         }
 
+        // Render loop
         while (!exit) {
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 

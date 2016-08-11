@@ -17,7 +17,9 @@ package cn.nekocode.camerafilter;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,16 +30,25 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 101;
     private CameraRenderer renderer;
+    private TextureView textureView;
     private int filterId = R.id.filter0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        setTitle(getString(R.string.app_name) + ": Original");
+        setTitle("Original");
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
@@ -70,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     void setupCameraPreviewView() {
         renderer = new CameraRenderer(this);
-        TextureView textureView = (TextureView) findViewById(R.id.textureView);
+        textureView = (TextureView) findViewById(R.id.textureView);
         assert textureView != null;
         textureView.setSurfaceTextureListener(renderer);
 
@@ -109,11 +120,49 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         filterId = item.getItemId();
-        setTitle(getString(R.string.app_name) + ": " + item.getTitle());
+
+        // TODO: need tidy up
+        if (filterId == R.id.capture) {
+            String mPath = genSaveFileName(getTitle().toString() + "_", ".png");
+            File imageFile = new File(mPath);
+            if (imageFile.exists()) {
+                imageFile.delete();
+            }
+
+            // create bitmap screen capture
+            Bitmap bitmap = textureView.getBitmap();;
+            OutputStream outputStream = null;
+
+            try {
+                outputStream = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
+                outputStream.flush();
+                outputStream.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(this, "The capture has been saved to your sdcard root path.", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
+
+        setTitle(item.getTitle());
 
         if (renderer != null)
             renderer.setCameraFilter(filterId);
 
-        return super.onOptionsItemSelected(item);
+        return true;
+    }
+
+    private String genSaveFileName(String prefix, String suffix) {
+        Date date = new Date();
+        SimpleDateFormat dateformat1 = new SimpleDateFormat("yyyyMMdd_hhmmss");
+        String timeString = dateformat1.format(date);
+        String externalPath = Environment.getExternalStorageDirectory().toString();
+        return externalPath + "/" + prefix + timeString + suffix;
     }
 }
