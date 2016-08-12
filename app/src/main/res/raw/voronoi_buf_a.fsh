@@ -25,7 +25,7 @@ vec4 GenerateSeed (in vec2 fragCoord)
     float dR = grayScale(texture2D( iChannel0, uv + dataStep.xz ));
     float dU = grayScale(texture2D( iChannel0, uv - dataStep.zy ));
     float dD = grayScale(texture2D( iChannel0, uv + dataStep.zy ));
-    float w = float( d*0.999 > max(max(dL, dR), max(dU, dD)) );
+    float w = float( d*0.99 > max(max(dL, dR), max(dU, dD)) );
 
     w = max(w, texture2D( iChannel1, uv ).w*.9); // get some from previous frame
 
