@@ -20,9 +20,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 #else
 
 	vec4 cell = texture2D(iChannel0, uv);
-    vec2 cell_uv = cell.xy / iChannelResolution[1].xy;
+    vec2 cell_uv = cell.xy;
     vec4 video = texture2D(iChannel1, cell_uv);
-    vec2 dcell = cell.xy - fragCoord.xy;
+    vec2 dcell = cell_uv * iChannelResolution[0].xy - fragCoord.xy;
     float len = length(dcell);
     vec3 color = video.xyz * (.9 + len*.005);
     fragColor = vec4(color, 1.);

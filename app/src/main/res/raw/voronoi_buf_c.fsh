@@ -11,7 +11,7 @@ varying vec2                texCoord;
 // A secondary buffer to get clean Voronoi every N-th frame
 
 // this must be in sync with JFA algorithm constant
-const float c_maxSteps = 8.0;
+const float c_maxSteps = 10.0;
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {

@@ -24,15 +24,13 @@ import cn.nekocode.camerafilter.RenderBuffer;
 
 /**
  * Created by nekocode on 16/8/6.
- * TODO Not working
+ * TODO Not working well
  */
 public class JFAVoronoiFilter extends CameraFilter {
     private int programImg;
     private int programA;
     private int programB;
     private int programC;
-
-    private int programOriginal;
 
     private RenderBuffer bufA;
     private RenderBuffer bufB;
@@ -46,8 +44,6 @@ public class JFAVoronoiFilter extends CameraFilter {
         programA = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.voronoi_buf_a);
         programB = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.voronoi_buf_b);
         programC = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.voronoi_buf_c);
-
-        programOriginal = MyGLUtils.buildProgram(context, R.raw.vertext, R.raw.original);
     }
 
     @Override
@@ -60,6 +56,7 @@ public class JFAVoronoiFilter extends CameraFilter {
             bufC = new RenderBuffer(canvasWidth, canvasHeight, GLES20.GL_TEXTURE6);
         }
 
+        // Render to buf a
         setupShaderInputs(programA,
                 new int[]{canvasWidth, canvasHeight},
                 new int[]{cameraTexId, bufA.getTexId()},
@@ -70,12 +67,8 @@ public class JFAVoronoiFilter extends CameraFilter {
         bufA.unbind();
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        setupShaderInputs(programOriginal,
-                new int[]{canvasWidth, canvasHeight},
-                new int[]{bufA.getTexId()},
-                new int[][]{});
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
+        // Render to buf b
         setupShaderInputs(programB,
                 new int[]{canvasWidth, canvasHeight},
                 new int[]{bufB.getTexId(), bufA.getTexId()},
@@ -86,6 +79,8 @@ public class JFAVoronoiFilter extends CameraFilter {
         bufB.unbind();
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
+
+        // Render to buf c
         setupShaderInputs(programC,
                 new int[]{canvasWidth, canvasHeight},
                 new int[]{bufC.getTexId(), bufB.getTexId()},
@@ -96,6 +91,8 @@ public class JFAVoronoiFilter extends CameraFilter {
         bufC.unbind();
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
+
+        // Render to screen
         setupShaderInputs(programImg,
                 new int[]{canvasWidth, canvasHeight},
                 new int[]{bufC.getTexId(), bufA.getTexId()},

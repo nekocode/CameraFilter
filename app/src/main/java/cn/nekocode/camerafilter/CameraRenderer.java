@@ -43,6 +43,7 @@ import cn.nekocode.camerafilter.filter.CrackedFilter;
 import cn.nekocode.camerafilter.filter.CrosshatchFilter;
 import cn.nekocode.camerafilter.filter.EMInterferenceFilter;
 import cn.nekocode.camerafilter.filter.EdgeDetectionFilter;
+import cn.nekocode.camerafilter.filter.JFAVoronoiFilter;
 import cn.nekocode.camerafilter.filter.LegofiedFilter;
 import cn.nekocode.camerafilter.filter.LichtensteinEsqueFilter;
 import cn.nekocode.camerafilter.filter.MappingFilter;
@@ -150,7 +151,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter17, new MoneyFilter(context));
         cameraFilterMap.append(R.id.filter18, new CrackedFilter(context));
         cameraFilterMap.append(R.id.filter19, new PolygonizationFilter(context));
-//        cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context));
+        cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context));
         setSelectedFilter(R.id.filter0);
 
         // Create texture for camera preview

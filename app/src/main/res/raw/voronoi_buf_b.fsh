@@ -10,7 +10,7 @@ varying vec2                texCoord;
 
 
 // how many JFA steps to do.  2^c_maxSteps is max image size on x and y
-const float c_maxSteps = 8.0;
+const float c_maxSteps = 10.0;
 
 //============================================================
 vec4 StepJFA (in vec2 fragCoord, in float level)
@@ -25,7 +25,7 @@ vec4 StepJFA (in vec2 fragCoord, in float level)
             vec2 sampleCoord = fragCoord + vec2(x,y) * stepwidth;
 
             vec4 data = texture2D( iChannel0, sampleCoord / iChannelResolution[0].xy);
-            vec2 seedCoord = data.xy;
+            vec2 seedCoord = data.xy * iChannelResolution[0].xy;
             float dist = length(seedCoord - fragCoord);
             if ((seedCoord.x != 0.0 || seedCoord.y != 0.0) && dist < bestDistance)
             {
@@ -35,7 +35,7 @@ vec4 StepJFA (in vec2 fragCoord, in float level)
         }
     }
 
-    return vec4(bestCoord, 0.0, 0.0);
+    return vec4(bestCoord / iChannelResolution[0].xy, 0.0, 0.0);
 }
 
 //============================================================
@@ -45,7 +45,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     float level = mod(fFrame,c_maxSteps);
     if (level < .5) {
         if (texture2D(iChannel1, fragCoord / iResolution.xy).w > .5)
-        	fragColor = vec4(fragCoord, 0.0, 0.0);
+        	fragColor = vec4(fragCoord / iChannelResolution[0].xy, 0.0, 0.0);
         else
             fragColor = vec4(0.0);
         return;
