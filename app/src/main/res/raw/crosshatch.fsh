@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 // The brightnesses at which different hatch lines appear
@@ -41,7 +40,7 @@ float d = 1.0; // kernel offset
 float lookup(vec2 p, float dx, float dy)
 {
     vec2 uv = (p.xy + vec2(dx * d, dy * d)) / iResolution.xy;
-    vec4 c = texture2D(sTexture, uv.xy);
+    vec4 c = texture2D(iChannel0, uv.xy);
 
 	// return as luma
     return 0.2126*c.r + 0.7152*c.g + 0.0722*c.b;
@@ -62,7 +61,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	vec2 uv = srcCoord.xy;
 
 	vec3 res = vec3(1.0, 1.0, 1.0);
-    vec4 tex = texture2D(sTexture, uv);
+    vec4 tex = texture2D(iChannel0, uv);
     float brightness = (0.2126*tex.x) + (0.7152*tex.y) + (0.0722*tex.z);
 #ifdef COLOUR_HATCHES
 	// check whether we have enough of a hue to warrant coloring our

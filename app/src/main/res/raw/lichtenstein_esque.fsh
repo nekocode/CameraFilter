@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 // Size of the quad in pixels
@@ -23,7 +22,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	// Distance to quad center
 	float dist = length(quadCenter - fragCoord.xy);
 
-	vec4 texel = texture2D(sTexture, quad);
+	vec4 texel = texture2D(iChannel0, quad);
 	if (dist > radius)
 	{
 		fragColor = vec4(0.25);

@@ -8,8 +8,8 @@ android {
         applicationId "cn.nekocode.camerafilter"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 150
-        versionName "1.5"
+        versionCode 200
+        versionName "2.0"
     }
     buildTypes {
         release {

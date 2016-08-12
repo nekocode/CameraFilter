@@ -91,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        renderer.setCameraFilter(R.id.filter0);
+                        renderer.setSelectedFilter(R.id.filter0);
                         break;
 
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        renderer.setCameraFilter(filterId);
+                        renderer.setSelectedFilter(filterId);
                         break;
                 }
                 return true;
@@ -123,37 +123,45 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: need tidy up
         if (filterId == R.id.capture) {
-            String mPath = genSaveFileName(getTitle().toString() + "_", ".png");
-            File imageFile = new File(mPath);
-            if (imageFile.exists()) {
-                imageFile.delete();
-            }
-
-            // create bitmap screen capture
-            Bitmap bitmap = textureView.getBitmap();;
-            OutputStream outputStream = null;
-
-            try {
-                outputStream = new FileOutputStream(imageFile);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
-                outputStream.flush();
-                outputStream.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Toast.makeText(this, "The capture has been saved to your sdcard root path.", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this,
+                    caputre() ? "The capture has been saved to your sdcard root path." :
+                            "Save failed!",
+                    Toast.LENGTH_SHORT).show();
             return true;
         }
 
         setTitle(item.getTitle());
 
         if (renderer != null)
-            renderer.setCameraFilter(filterId);
+            renderer.setSelectedFilter(filterId);
+
+        return true;
+    }
+
+    private boolean caputre() {
+        String mPath = genSaveFileName(getTitle().toString() + "_", ".png");
+        File imageFile = new File(mPath);
+        if (imageFile.exists()) {
+            imageFile.delete();
+        }
+
+        // create bitmap screen capture
+        Bitmap bitmap = textureView.getBitmap();
+        OutputStream outputStream = null;
+
+        try {
+            outputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         return true;
     }

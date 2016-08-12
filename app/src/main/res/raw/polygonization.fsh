@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 vec2 hash2( vec2 p )
@@ -50,7 +49,7 @@ vec3 VoronoiColor(float steps, vec2 p, vec2 uv)
     uv1.x += c.x/steps;
     uv1.y += c.y/steps *  iResolution.x/iResolution.y;
 
-    return texture2D(sTexture, vec2(uv1.x, uv1.y)).xyz;
+    return texture2D(iChannel0, vec2(uv1.x, uv1.y)).xyz;
 }
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )

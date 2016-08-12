@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 // referenced the method of bitmap of iq : https://www.shadertoy.com/view/4dfXWj
@@ -24,7 +23,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     vec2 uv = vec2(floor(fragCoord.x/8./zoom)*8.*zoom,floor(fragCoord.y/12./zoom)*12.*zoom)/r;
     ivec2 pos = ivec2(mod(fragCoord.x/zoom,8.),mod(fragCoord.y/zoom,12.));
-    vec4 tex = texture2D(sTexture,uv);
+    vec4 tex = texture2D(iChannel0,uv);
     float cha = 0.;
 
     {

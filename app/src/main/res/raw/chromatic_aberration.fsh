@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision mediump float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
@@ -21,9 +20,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 	amount *= 0.05;
 	
     vec3 col;
-    col.r = texture2D( sTexture, vec2(uv.x+amount,uv.y) ).r;
-    col.g = texture2D( sTexture, uv ).g;
-    col.b = texture2D( sTexture, vec2(uv.x-amount,uv.y) ).b;
+    col.r = texture2D( iChannel0, vec2(uv.x+amount,uv.y) ).r;
+    col.g = texture2D( iChannel0, uv ).g;
+    col.b = texture2D( iChannel0, vec2(uv.x-amount,uv.y) ).b;
 
 	col *= (1.0 - amount * 0.5);
 	

@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 
@@ -33,7 +32,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     datosPatron[4] = vec3(1.0, 0.0, 0.3); // 90
     datosPatron[5] = vec3(0.0, 1.0, 0.2); // 0
 
-    vec4 color = texture2D(sTexture, vec2(fragCoord.x / iResolution.x, xy.y));
+    vec4 color = texture2D(iChannel0, vec2(fragCoord.x / iResolution.x, xy.y));
     fragColor = color;
 
     for(int i = 0; i < kNumPatrones; i++)

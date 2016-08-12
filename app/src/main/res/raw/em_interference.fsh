@@ -1,10 +1,8 @@
-#extension GL_OES_EGL_image_external : require
-// #extension GL_OES_standard_derivatives : enable
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 float rng2(vec2 seed)
@@ -28,9 +26,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
     float lineNoise = pow(rng2(blockS), 8.0) * pow(rng2(blockL), 3.0) - pow(rng(7.2341), 17.0) * 2.;
 
-    vec4 col1 = texture2D(sTexture, uv);
-    vec4 col2 = texture2D(sTexture, uv + vec2(lineNoise * 0.05 * rng(5.0), 0));
-    vec4 col3 = texture2D(sTexture, uv - vec2(lineNoise * 0.05 * rng(31.0), 0));
+    vec4 col1 = texture2D(iChannel0, uv);
+    vec4 col2 = texture2D(iChannel0, uv + vec2(lineNoise * 0.05 * rng(5.0), 0));
+    vec4 col3 = texture2D(iChannel0, uv - vec2(lineNoise * 0.05 * rng(31.0), 0));
 
 	fragColor = vec4(vec3(col1.x, col2.y, col3.z) + noise, 1.0);
 }

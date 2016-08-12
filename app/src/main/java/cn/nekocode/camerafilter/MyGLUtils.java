@@ -36,37 +36,50 @@ import javax.microedition.khronos.opengles.GL10;
 public class MyGLUtils {
     private static final String TAG = "MyGLUtils";
 
-    public static int createCameraTexture() {
-        int[] texture = new int[1];
-
-        GLES20.glGenTextures(1, texture, 0);
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture[0]);
-        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
-
-        return texture[0];
+    public static int genTexture() {
+        return genTexture(GLES20.GL_TEXTURE_2D);
     }
 
-    public static int loadTexture(final Context context, final int resourceId) {
-        int[] texture = new int[1];
+    public static int genTexture(int textureType) {
+        int[] genBuf = new int[1];
+        GLES20.glGenTextures(1, genBuf, 0);
+        GLES20.glBindTexture(textureType, genBuf[0]);
 
-        GLES20.glGenTextures(1, texture, 0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_REPEAT);
+        // Set texture default draw parameters
+        if (textureType == GLES11Ext.GL_TEXTURE_EXTERNAL_OES) {
+            GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+            GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+            GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
 
-        final int textureHandle = texture[0];
+        } else {
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+            GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_REPEAT);
+        }
 
-        if (textureHandle != 0) {
+        return genBuf[0];
+    }
+
+    public static int loadTexture(final Context context, final int resourceId, int[] size) {
+        final int texId = genTexture();
+
+        if (texId != 0) {
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inScaled = false;   // No pre-scaling
+            options.inJustDecodeBounds = true;
 
-            // Read in the resource
-            final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+            // Just decode bounds
+            BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+
+            // Set return size
+            size[0] = options.outWidth;
+            size[1] = options.outHeight;
+
+            // Decode
+            options.inJustDecodeBounds = false;
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
 
             // Load the bitmap into the bound texture.
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
@@ -75,8 +88,7 @@ public class MyGLUtils {
             bitmap.recycle();
         }
 
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-        return textureHandle;
+        return texId;
     }
 
     public static int buildProgram(Context context, int vertexSourceRawId, int fragmentSourceRawId) {

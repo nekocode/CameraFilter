@@ -1,8 +1,7 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 float c = 0.02; //amout of blocks = c*iResolution.x
@@ -11,7 +10,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
     //blocked pixel coordinate
     vec2 middle = floor(fragCoord*c+.5)/c;
 
-    vec3 color = texture2D(sTexture, middle/iResolution.xy).rgb;
+    vec3 color = texture2D(iChannel0, middle/iResolution.xy).rgb;
 
     //lego block effects
         //stud

@@ -18,6 +18,7 @@ package cn.nekocode.camerafilter;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.util.Pair;
@@ -42,7 +43,6 @@ import cn.nekocode.camerafilter.filter.CrackedFilter;
 import cn.nekocode.camerafilter.filter.CrosshatchFilter;
 import cn.nekocode.camerafilter.filter.EMInterferenceFilter;
 import cn.nekocode.camerafilter.filter.EdgeDetectionFilter;
-import cn.nekocode.camerafilter.filter.JFAVoronoiFilter;
 import cn.nekocode.camerafilter.filter.LegofiedFilter;
 import cn.nekocode.camerafilter.filter.LichtensteinEsqueFilter;
 import cn.nekocode.camerafilter.filter.MappingFilter;
@@ -76,7 +76,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
     private Camera camera;
     private SurfaceTexture cameraSurfaceTexture;
     private int cameraTextureId;
-    private CameraFilter cameraFilter;
+    private CameraFilter selectedFilter;
     private SparseArray<CameraFilter> cameraFilterMap = new SparseArray<>();
 
     private boolean exit = false;
@@ -101,6 +101,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
             camera.release();
         }
         exit = true;
+        CameraFilter.release();
 
         return true;
     }
@@ -108,6 +109,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         surfaceTexture = surface;
+        GLES20.glViewport(0, 0, gwidth = width, gheight = height);
 
         // Open camera
         Pair<Camera.CameraInfo, Integer> backCamera = getBackCamera();
@@ -118,22 +120,16 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         start();
     }
 
-    public void setCameraFilter(int id) {
-        cameraFilter = cameraFilterMap.get(id);
-        if (id == R.id.filter20) ((JFAVoronoiFilter) cameraFilter).resetFrame();
+    public void setSelectedFilter(int id) {
+        selectedFilter = cameraFilterMap.get(id);
+        selectedFilter.onAttach();
     }
 
     @Override
     public void run() {
         initGL(surfaceTexture);
 
-        Camera.Size cameraSize = camera.getParameters().getPreviewSize();
-
-        // Create texture for camera preview
-        cameraTextureId = MyGLUtils.createCameraTexture();
-        cameraSurfaceTexture = new SurfaceTexture(cameraTextureId);
-
-        // Setup camera filter map
+        // Setup camera filters map
         cameraFilterMap.append(R.id.filter0, new OriginalFilter(context));
         cameraFilterMap.append(R.id.filter1, new EdgeDetectionFilter(context));
         cameraFilterMap.append(R.id.filter2, new PixelizeFilter(context));
@@ -154,8 +150,12 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter17, new MoneyFilter(context));
         cameraFilterMap.append(R.id.filter18, new CrackedFilter(context));
         cameraFilterMap.append(R.id.filter19, new PolygonizationFilter(context));
-        cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context, cameraSize.width, cameraSize.height));
-        cameraFilter = cameraFilterMap.get(R.id.filter0);
+//        cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context));
+        setSelectedFilter(R.id.filter0);
+
+        // Create texture for camera preview
+        cameraTextureId = MyGLUtils.genTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
+        cameraSurfaceTexture = new SurfaceTexture(cameraTextureId);
 
         // Start camera preview
         try {
@@ -175,7 +175,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
             }
 
             // Draw camera preview
-            cameraFilter.draw(cameraTextureId, gwidth, gheight);
+            selectedFilter.draw(cameraTextureId, gwidth, gheight);
 
             // Flush
             GLES20.glFlush();

@@ -1,8 +1,7 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 vec2 tile_num = vec2(40.0, 20.0);
@@ -27,7 +26,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		{
 			vec2 textureCoordinates = (tileNumber + vec2((x + 0.5)/textureSamplesCount, (y + 0.5)/textureSamplesCount)) * tileSize / iResolution.xy;
 			textureCoordinates = clamp(textureCoordinates, 0.0 + textureEdgeOffset, 1.0 - textureEdgeOffset);
-			accumulator += texture2D(sTexture, textureCoordinates);
+			accumulator += texture2D(iChannel0, textureCoordinates);
 	   }
 	}
 

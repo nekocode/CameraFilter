@@ -1,9 +1,8 @@
-#extension GL_OES_EGL_image_external : require
 precision highp float;
 
 uniform vec3                iResolution;
 uniform float               iGlobalTime;
-uniform samplerExternalOES  sTexture;
+uniform sampler2D           iChannel0;
 varying vec2                texCoord;
 
 float rnd(vec2 s)
@@ -40,7 +39,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     if(length(v-v2)<4E-3)col=0.;
 //    if(length(v-p)<4E-3)col=1E-6;
     if(col<.3)col=0.;
-    vec4 tex=texture2D(sTexture,(fragCoord.xy)/iResolution.xy+rnd(v)*.02);
+    vec4 tex=texture2D(iChannel0,(fragCoord.xy)/iResolution.xy+rnd(v)*.02);
     fragColor=col*vec4(vec3(1.-tex.xyz),1.)+(1.-col)*tex;
 }
 
