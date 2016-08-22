@@ -80,8 +80,6 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
     private CameraFilter selectedFilter;
     private SparseArray<CameraFilter> cameraFilterMap = new SparseArray<>();
 
-    private boolean exit = false;
-
     public CameraRenderer(Context context) {
         this.context = context;
     }
@@ -101,7 +99,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
             camera.stopPreview();
             camera.release();
         }
-        exit = true;
+        interrupt();
         CameraFilter.release();
 
         return true;
@@ -109,6 +107,10 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        if (isAlive()) {
+            interrupt();
+        }
+
         surfaceTexture = surface;
         GLES20.glViewport(0, 0, gwidth = width, gheight = height);
 
@@ -167,25 +169,26 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         }
 
         // Render loop
-        while (!exit) {
-            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-
-            // Update the camera preview texture
-            synchronized (this) {
-                cameraSurfaceTexture.updateTexImage();
-            }
-
-            // Draw camera preview
-            selectedFilter.draw(cameraTextureId, gwidth, gheight);
-
-            // Flush
-            GLES20.glFlush();
-            egl10.eglSwapBuffers(eglDisplay, eglSurface);
-
+        while (!Thread.currentThread().isInterrupted()) {
             try {
+                GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+
+                // Update the camera preview texture
+                synchronized (this) {
+                    cameraSurfaceTexture.updateTexImage();
+                }
+
+                // Draw camera preview
+                selectedFilter.draw(cameraTextureId, gwidth, gheight);
+
+                // Flush
+                GLES20.glFlush();
+                egl10.eglSwapBuffers(eglDisplay, eglSurface);
+
                 Thread.sleep(DRAW_INTERVAL);
+
             } catch (InterruptedException e) {
-                // Ignore
+                Thread.currentThread().interrupt();
             }
         }
 
