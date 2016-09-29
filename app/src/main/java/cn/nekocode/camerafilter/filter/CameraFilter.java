@@ -29,7 +29,7 @@ import cn.nekocode.camerafilter.R;
 import cn.nekocode.camerafilter.RenderBuffer;
 
 /**
- * Created by nekocode on 16/8/6.
+ * @author nekocode (nekocode.cn@gmail.com)
  */
 public abstract class CameraFilter {
     static final float SQUARE_COORDS[] = {
@@ -128,7 +128,7 @@ public abstract class CameraFilter {
 
         onDraw(CAMERA_RENDER_BUF.getTexId(), canvasWidth, canvasHeight);
 
-        iFrame ++;
+        iFrame++;
     }
 
     abstract void onDraw(int cameraTexId, int canvasWidth, int canvasHeight);
@@ -159,7 +159,7 @@ public abstract class CameraFilter {
         GLES20.glEnableVertexAttribArray(vTexCoordLocation);
         GLES20.glVertexAttribPointer(vTexCoordLocation, 2, GLES20.GL_FLOAT, false, 4 * 2, textureCoord);
 
-        for (int i = 0; i < iChannels.length; i ++) {
+        for (int i = 0; i < iChannels.length; i++) {
             int sTextureLocation = GLES20.glGetUniformLocation(program, "iChannel" + i);
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, iChannels[i]);
@@ -168,9 +168,9 @@ public abstract class CameraFilter {
 
         float _iChannelResolutions[] = new float[iChannelResolutions.length * 3];
         for (int i = 0; i < iChannelResolutions.length; i++) {
-            _iChannelResolutions[i*3] = iChannelResolutions[i][0];
-            _iChannelResolutions[i*3 + 1] = iChannelResolutions[i][1];
-            _iChannelResolutions[i*3 + 2] = 1.0f;
+            _iChannelResolutions[i * 3] = iChannelResolutions[i][0];
+            _iChannelResolutions[i * 3 + 1] = iChannelResolutions[i][1];
+            _iChannelResolutions[i * 3 + 2] = 1.0f;
         }
 
         int iChannelResolutionLocation = GLES20.glGetUniformLocation(program, "iChannelResolution");

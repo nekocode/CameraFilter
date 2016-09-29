@@ -23,8 +23,7 @@ import cn.nekocode.camerafilter.R;
 import cn.nekocode.camerafilter.RenderBuffer;
 
 /**
- * Created by nekocode on 16/8/6.
- * TODO Not working well
+ * @author nekocode (nekocode.cn@gmail.com)
  */
 public class JFAVoronoiFilter extends CameraFilter {
     private int programImg;

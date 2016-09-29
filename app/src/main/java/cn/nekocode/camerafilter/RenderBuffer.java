@@ -24,7 +24,7 @@ import java.nio.IntBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * Created by nekocode on 16/8/12.
+ * @author nekocode (nekocode.cn@gmail.com)
  */
 public class RenderBuffer {
     private int texId = 0;

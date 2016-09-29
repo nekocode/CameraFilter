@@ -38,6 +38,9 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author nekocode (nekocode.cn@gmail.com)
+ */
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 101;
     private CameraRenderer renderer;

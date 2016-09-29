@@ -57,14 +57,15 @@ import cn.nekocode.camerafilter.filter.TileMosaicFilter;
 import cn.nekocode.camerafilter.filter.TrianglesMosaicFilter;
 
 /**
- * Created by nekocode on 16/8/5.
+ * @author nekocode (nekocode.cn@gmail.com)
  */
-public class CameraRenderer extends Thread implements TextureView.SurfaceTextureListener {
+public class CameraRenderer implements Runnable, TextureView.SurfaceTextureListener {
     private static final String TAG = "CameraRenderer";
     private static final int EGL_OPENGL_ES2_BIT = 4;
     private static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
     private static final int DRAW_INTERVAL = 1000 / 30;
 
+    private Thread renderThread;
     private Context context;
     private SurfaceTexture surfaceTexture;
     private int gwidth, gheight;
@@ -78,6 +79,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
     private SurfaceTexture cameraSurfaceTexture;
     private int cameraTextureId;
     private CameraFilter selectedFilter;
+    private int selectedFilterId = R.id.filter0;
     private SparseArray<CameraFilter> cameraFilterMap = new SparseArray<>();
 
     public CameraRenderer(Context context) {
@@ -90,7 +92,8 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-        GLES20.glViewport(0, 0, gwidth = width, gheight = height);
+        gwidth = -width;
+        gheight = -height;
     }
 
     @Override
@@ -99,7 +102,9 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
             camera.stopPreview();
             camera.release();
         }
-        interrupt();
+        if (renderThread != null && renderThread.isAlive()) {
+            renderThread.interrupt();
+        }
         CameraFilter.release();
 
         return true;
@@ -107,12 +112,14 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        if (isAlive()) {
-            interrupt();
+        if (renderThread != null && renderThread.isAlive()) {
+            renderThread.interrupt();
         }
+        renderThread = new Thread(this);
 
         surfaceTexture = surface;
-        GLES20.glViewport(0, 0, gwidth = width, gheight = height);
+        gwidth = -width;
+        gheight = -height;
 
         // Open camera
         Pair<Camera.CameraInfo, Integer> backCamera = getBackCamera();
@@ -120,12 +127,14 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         camera = Camera.open(backCameraId);
 
         // Start rendering
-        start();
+        renderThread.start();
     }
 
     public void setSelectedFilter(int id) {
+        selectedFilterId = id;
         selectedFilter = cameraFilterMap.get(id);
-        selectedFilter.onAttach();
+        if (selectedFilter != null)
+            selectedFilter.onAttach();
     }
 
     @Override
@@ -154,7 +163,7 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         cameraFilterMap.append(R.id.filter18, new CrackedFilter(context));
         cameraFilterMap.append(R.id.filter19, new PolygonizationFilter(context));
         cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context));
-        setSelectedFilter(R.id.filter0);
+        setSelectedFilter(selectedFilterId);
 
         // Create texture for camera preview
         cameraTextureId = MyGLUtils.genTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
@@ -171,6 +180,9 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
         // Render loop
         while (!Thread.currentThread().isInterrupted()) {
             try {
+                if (gwidth < 0 && gheight < 0)
+                    GLES20.glViewport(0, 0, gwidth = -gwidth, gheight = -gheight);
+
                 GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
                 // Update the camera preview texture
@@ -201,12 +213,14 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
 
         eglDisplay = egl10.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
         if (eglDisplay == EGL10.EGL_NO_DISPLAY) {
-            throw new RuntimeException("eglGetDisplay failed " + android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
+            throw new RuntimeException("eglGetDisplay failed " +
+                    android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
         }
 
         int[] version = new int[2];
         if (!egl10.eglInitialize(eglDisplay, version)) {
-            throw new RuntimeException("eglInitialize failed " + android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
+            throw new RuntimeException("eglInitialize failed " +
+                    android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
         }
 
         int[] configsCount = new int[1];
@@ -225,7 +239,8 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
 
         EGLConfig eglConfig = null;
         if (!egl10.eglChooseConfig(eglDisplay, configSpec, configs, 1, configsCount)) {
-            throw new IllegalArgumentException("eglChooseConfig failed " + android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
+            throw new IllegalArgumentException("eglChooseConfig failed " +
+                    android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
         } else if (configsCount[0] > 0) {
             eglConfig = configs[0];
         }
@@ -243,11 +258,13 @@ public class CameraRenderer extends Thread implements TextureView.SurfaceTexture
                 Log.e(TAG, "eglCreateWindowSurface returned EGL10.EGL_BAD_NATIVE_WINDOW");
                 return;
             }
-            throw new RuntimeException("eglCreateWindowSurface failed " + android.opengl.GLUtils.getEGLErrorString(error));
+            throw new RuntimeException("eglCreateWindowSurface failed " +
+                    android.opengl.GLUtils.getEGLErrorString(error));
         }
 
         if (!egl10.eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext)) {
-            throw new RuntimeException("eglMakeCurrent failed " + android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
+            throw new RuntimeException("eglMakeCurrent failed " +
+                    android.opengl.GLUtils.getEGLErrorString(egl10.eglGetError()));
         }
     }
 

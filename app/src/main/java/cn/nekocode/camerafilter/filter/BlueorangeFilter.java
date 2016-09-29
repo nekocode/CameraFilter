@@ -22,7 +22,7 @@ import cn.nekocode.camerafilter.MyGLUtils;
 import cn.nekocode.camerafilter.R;
 
 /**
- * Created by nekocode on 16/8/6.
+ * @author nekocode (nekocode.cn@gmail.com)
  */
 public class BlueorangeFilter extends CameraFilter {
     private int program;
