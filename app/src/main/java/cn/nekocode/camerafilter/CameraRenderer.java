@@ -35,6 +35,7 @@ import javax.microedition.khronos.egl.EGLSurface;
 
 import cn.nekocode.camerafilter.filter.AsciiArtFilter;
 import cn.nekocode.camerafilter.filter.BasicDeformFilter;
+import cn.nekocode.camerafilter.filter.BeautyFilter;
 import cn.nekocode.camerafilter.filter.BlueorangeFilter;
 import cn.nekocode.camerafilter.filter.CameraFilter;
 import cn.nekocode.camerafilter.filter.ChromaticAberrationFilter;
@@ -163,6 +164,7 @@ public class CameraRenderer implements Runnable, TextureView.SurfaceTextureListe
         cameraFilterMap.append(R.id.filter18, new CrackedFilter(context));
         cameraFilterMap.append(R.id.filter19, new PolygonizationFilter(context));
         cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context));
+        cameraFilterMap.append(R.id.filter21, new BeautyFilter(context));
         setSelectedFilter(selectedFilterId);
 
         // Create texture for camera preview
@@ -274,7 +276,7 @@ public class CameraRenderer implements Runnable, TextureView.SurfaceTextureListe
 
         for (int i = 0; i < numberOfCameras; ++i) {
             Camera.getCameraInfo(i, cameraInfo);
-            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                 return new Pair<>(cameraInfo, i);
             }
         }

@@ -176,6 +176,10 @@ public abstract class CameraFilter {
         int iChannelResolutionLocation = GLES20.glGetUniformLocation(program, "iChannelResolution");
         GLES20.glUniform3fv(iChannelResolutionLocation,
                 _iChannelResolutions.length, FloatBuffer.wrap(_iChannelResolutions));
+
+        // For beauty
+        int singleStepOffsetLocation = GLES20.glGetUniformLocation(program, "singleStepOffset");
+        GLES20.glUniform2fv(singleStepOffsetLocation, 1, FloatBuffer.wrap(new float[] { 2.0f / 480.0f, 2.0f / 640.0f}));
     }
 
     public static void release() {

@@ -134,4 +134,10 @@
         android:title="JFAVoronoi"
         app:showAsAction="never"
         />
+
+    <item
+        android:id="@+id/filter21"
+        android:title="Beauty"
+        app:showAsAction="never"
+        />
 </menu>
