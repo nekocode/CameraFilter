@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -69,20 +70,28 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setupCameraPreviewView();
         }
+
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CAMERA_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setupCameraPreviewView();
+        @Override
+        public void onRequestPermissionsResult (int requestCode, @NonNull String permissions[], @NonNull int[] grantResults){
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            switch (requestCode) {
+                case REQUEST_CAMERA_PERMISSION: {
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        setContentView(R.layout.main);
+                        setupCameraPreviewView();
+
+
+
+                    }
+
                 }
             }
         }
-    }
 
     void setupCameraPreviewView() {
+
         renderer = new CameraRenderer(this);
         textureView = (TextureView) findViewById(R.id.textureView);
         assert textureView != null;
