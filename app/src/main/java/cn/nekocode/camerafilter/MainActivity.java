@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: need tidy up
         if (filterId == R.id.capture) {
             Toast.makeText(this,
-                    caputre() ? "The capture has been saved to your sdcard root path." :
+                    capture() ? "The capture has been saved to your sdcard root path." :
                             "Save failed!",
                     Toast.LENGTH_SHORT).show();
             return true;
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean caputre() {
+    private boolean capture() {
         String mPath = genSaveFileName(getTitle().toString() + "_", ".png");
         File imageFile = new File(mPath);
         if (imageFile.exists()) {
