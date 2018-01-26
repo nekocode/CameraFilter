@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.io.File;
@@ -43,6 +44,7 @@ import java.util.Date;
  */
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 101;
+    private FrameLayout container;
     private CameraRenderer renderer;
     private TextureView textureView;
     private int filterId = R.id.filter0;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(container = new FrameLayout(this));
         setTitle("Original");
 
         if (ContextCompat.checkSelfPermission(this,
@@ -84,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     void setupCameraPreviewView() {
         renderer = new CameraRenderer(this);
-        textureView = (TextureView) findViewById(R.id.textureView);
-        assert textureView != null;
+        textureView = new TextureView(this);
+        container.addView(textureView);
         textureView.setSurfaceTextureListener(renderer);
 
         // Show original frame when touch the view
