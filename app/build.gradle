@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.3"
 
     defaultConfig {
         applicationId "cn.nekocode.camerafilter"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 212
-        versionName "2.3"
+        versionName "2.4"
     }
     buildTypes {
         release {
