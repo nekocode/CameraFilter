@@ -23,6 +23,7 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -37,23 +38,45 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
  * @author nekocode (nekocode.cn@gmail.com)
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
     private static final int REQUEST_CAMERA_PERMISSION = 101;
     private FrameLayout container;
     private CameraRenderer renderer;
     private TextureView textureView;
     private int filterId = R.id.filter0;
+    private int mCurrentFilterId = 0;
+
+    String[] TITLES = {"Original", "EdgeDectection", "Pixelize",
+            "EMInterference", "TrianglesMosaic", "Legofied",
+            "TileMosaic", "Blueorange", "ChromaticAberration",
+            "BasicDeform", "Contrast", "NoiseWarp", "Refraction",
+            "Mapping", "Crosshatch", "LichtensteinEsque",
+            "AsciiArt", "MoneyFilter", "Cracked", "Polygonization",
+            "JFAVoronoi", "BlackAndWhite"};
+
+    Integer[] FILTER_RES_IDS = {R.id.filter0, R.id.filter1, R.id.filter2, R.id.filter3, R.id.filter4,
+            R.id.filter5, R.id.filter6, R.id.filter7, R.id.filter8, R.id.filter9, R.id.filter10,
+            R.id.filter11, R.id.filter12, R.id.filter13, R.id.filter14, R.id.filter15, R.id.filter16,
+            R.id.filter17, R.id.filter18, R.id.filter19, R.id.filter20,
+            R.id.filter21};
+
+    ArrayList<Integer> mFilterArray = new ArrayList<>(Arrays.asList(FILTER_RES_IDS));
+
+    GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(container = new FrameLayout(this));
-        setTitle("Original");
+        setTitle(TITLES[mCurrentFilterId]);
+
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
@@ -71,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setupCameraPreviewView();
         }
+
+        mGestureDetector = new GestureDetector(this, this);
     }
 
     @Override
@@ -90,20 +115,11 @@ public class MainActivity extends AppCompatActivity {
         container.addView(textureView);
         textureView.setSurfaceTextureListener(renderer);
 
-        // Show original frame when touch the view
+//        textureView.setOnTouchListener(this);
         textureView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        renderer.setSelectedFilter(R.id.filter0);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        renderer.setSelectedFilter(filterId);
-                        break;
-                }
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                mGestureDetector.onTouchEvent(motionEvent);
                 return true;
             }
         });
@@ -139,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (renderer != null)
             renderer.setSelectedFilter(filterId);
-
+        mCurrentFilterId = mFilterArray.indexOf(filterId);
         return true;
     }
 
@@ -177,5 +193,63 @@ public class MainActivity extends AppCompatActivity {
         String timeString = dateformat1.format(date);
         String externalPath = Environment.getExternalStorageDirectory().toString();
         return externalPath + "/" + prefix + timeString + suffix;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        float velocity = Math.abs(velocityX) > Math.abs(velocityY) ? velocityX : velocityY;
+        int step = velocity > 0 ? -1 : 1;
+        mCurrentFilterId = circleLoop(TITLES.length, mCurrentFilterId, step);
+        setTitle(TITLES[mCurrentFilterId]);
+        if (renderer != null) {
+            renderer.setSelectedFilter(FILTER_RES_IDS[mCurrentFilterId]);
+        }
+        return true;
+    }
+
+    private int circleLoop(int size, int currentPos, int step) {
+        if (step == 0) {
+            return currentPos;
+        }
+
+        if (step > 0) {
+            if (currentPos + step >= size) {
+                return (currentPos + step) % size;
+            } else {
+                return currentPos + step;
+            }
+        } else {
+            if (currentPos + step < 0) {
+                return currentPos + step + size;
+            } else {
+                return currentPos + step;
+            }
+        }
     }
 }
