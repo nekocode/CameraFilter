@@ -38,24 +38,35 @@ import cn.nekocode.camerafilter.filter.BasicDeformFilter;
 import cn.nekocode.camerafilter.filter.BlackAndWhiteFilter;
 import cn.nekocode.camerafilter.filter.BlueorangeFilter;
 import cn.nekocode.camerafilter.filter.CameraFilter;
+import cn.nekocode.camerafilter.filter.CartoonFilter;
+import cn.nekocode.camerafilter.filter.CastingFilter;
 import cn.nekocode.camerafilter.filter.ChromaticAberrationFilter;
 import cn.nekocode.camerafilter.filter.ContrastFilter;
 import cn.nekocode.camerafilter.filter.CrackedFilter;
 import cn.nekocode.camerafilter.filter.CrosshatchFilter;
 import cn.nekocode.camerafilter.filter.EMInterferenceFilter;
 import cn.nekocode.camerafilter.filter.EdgeDetectionFilter;
+import cn.nekocode.camerafilter.filter.GrayFilter;
+import cn.nekocode.camerafilter.filter.HexagonMosaicFilter;
 import cn.nekocode.camerafilter.filter.JFAVoronoiFilter;
 import cn.nekocode.camerafilter.filter.LegofiedFilter;
 import cn.nekocode.camerafilter.filter.LichtensteinEsqueFilter;
 import cn.nekocode.camerafilter.filter.MappingFilter;
+import cn.nekocode.camerafilter.filter.MirrorFilter;
 import cn.nekocode.camerafilter.filter.MoneyFilter;
+import cn.nekocode.camerafilter.filter.NegativeFilter;
 import cn.nekocode.camerafilter.filter.NoiseWarpFilter;
+import cn.nekocode.camerafilter.filter.NostalgiaFilter;
 import cn.nekocode.camerafilter.filter.OriginalFilter;
 import cn.nekocode.camerafilter.filter.PixelizeFilter;
 import cn.nekocode.camerafilter.filter.PolygonizationFilter;
 import cn.nekocode.camerafilter.filter.RefractionFilter;
+import cn.nekocode.camerafilter.filter.ReliefFilter;
+import cn.nekocode.camerafilter.filter.SwirlFilter;
 import cn.nekocode.camerafilter.filter.TileMosaicFilter;
 import cn.nekocode.camerafilter.filter.TrianglesMosaicFilter;
+import cn.nekocode.camerafilter.filter.TripleFilter;
+import cn.nekocode.camerafilter.filter.WaterReflectionFilter;
 
 /**
  * @author nekocode (nekocode.cn@gmail.com)
@@ -165,6 +176,17 @@ public class CameraRenderer implements Runnable, TextureView.SurfaceTextureListe
         cameraFilterMap.append(R.id.filter19, new PolygonizationFilter(context));
         cameraFilterMap.append(R.id.filter20, new JFAVoronoiFilter(context));
         cameraFilterMap.append(R.id.filter21, new BlackAndWhiteFilter(context));
+        cameraFilterMap.append(R.id.filter22, new GrayFilter(context));
+        cameraFilterMap.append(R.id.filter23, new NegativeFilter(context));
+        cameraFilterMap.append(R.id.filter24, new NostalgiaFilter(context));
+        cameraFilterMap.append(R.id.filter25, new CastingFilter(context));
+        cameraFilterMap.append(R.id.filter26, new ReliefFilter(context));
+        cameraFilterMap.append(R.id.filter27, new SwirlFilter(context));
+        cameraFilterMap.append(R.id.filter28, new HexagonMosaicFilter(context));
+        cameraFilterMap.append(R.id.filter29, new MirrorFilter(context));
+        cameraFilterMap.append(R.id.filter30, new TripleFilter(context));
+        cameraFilterMap.append(R.id.filter31, new CartoonFilter(context));
+        cameraFilterMap.append(R.id.filter32, new WaterReflectionFilter(context));
         setSelectedFilter(selectedFilterId);
 
         // Create texture for camera preview

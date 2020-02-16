@@ -7,12 +7,13 @@ varying vec2                texCoord;
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     vec4 mask = texture2D(iChannel0, fragCoord);
-    float color = (mask.r + mask.g + mask.b) / 3.0;
-    color = step(0.5, color);
-    vec4 tempColor = vec4(color, color, color, 1.0);
+    vec4 tempColor = vec4(mask.r*0.5/(mask.g + mask.b + 0.01),
+     mask.g*0.5/(mask.r + mask.b + 0.01),
+     mask.b*0.5/(mask.r + mask.g + 0.01),
+       1.0);
     fragColor = tempColor;
 }
 
 void main() {
-	mainImage(gl_FragColor, texCoord);
-}
+ 	mainImage(gl_FragColor, texCoord);
+ }
