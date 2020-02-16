@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 nekocode
+ * Copyright 2016 winston
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import cn.nekocode.camerafilter.MyGLUtils;
 import cn.nekocode.camerafilter.R;
 
 /**
- * @author nekocode (nekocode.cn@gmail.com)
+ * @author winston (1054669137@qq.com)
  */
 public class HexagonMosaicFilter extends CameraFilter {
     private int program;
